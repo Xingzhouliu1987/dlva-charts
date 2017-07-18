@@ -10,7 +10,7 @@ function mockSlackRequest(airport, callback) {
 	})
   var post_options = {
       host: 'localhost',
-      port: '80',
+      port: '9999',
       path: '',
       method: 'POST',
       headers: {
