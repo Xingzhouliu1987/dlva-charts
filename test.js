@@ -6,7 +6,8 @@ var port = process.env.PORT || process.argv[2] || 5000;
 function mockSlackRequest(airport, callback) {
 	var post_data = querystring.stringify({
 		command : "/charts",
-		text : airport
+		text : airport, 
+		token :  "0EUKomyJbciv4CULBSsVYhPg"
 	})
   var post_options = {
       host: 'localhost',

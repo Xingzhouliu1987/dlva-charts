@@ -1,6 +1,6 @@
 var airtable = require("airtable") ;
 
-module.exports = function(apiKey, baseid) {
+module.exports = function(apiKey, baseid, verificationToken) {
 	airtable.configure({
 		apiKey: apiKey
 	})
@@ -38,9 +38,29 @@ module.exports = function(apiKey, baseid) {
 		    }
 		});
 	};
+	var check;
+	if(verificationToken) {
+		check = function(req) {
+			return req.body.token === verificationToken
+		}
+	}
+	else 
+	{
+		check = function(req) {
+			return true;
+		}
+	}
     return function(req,res){
 
 		var airport = req.body.text ;
+		if(!check(req)) {
+				res.setHeader('Content-Type', 'application/json');
+				res.send(JSON.stringify({
+					"response_type"  : "ephemeral" , 
+					"text" : "Invalid Command" ,
+				}));		
+				return ;	
+		}
 		if(airport && typeof(airport) === "string" && (airport = airport.trim().toUpperCase()).length === 4 ) {
 			/*
 				Airport code is required to be a four letter character string

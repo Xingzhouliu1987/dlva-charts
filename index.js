@@ -9,7 +9,7 @@ var app = express();
 
 app.set('port', (process.env.PORT || process.argv[2] || 5000))
 
-app.post("/charts",bodyParser.urlencoded(),charts(env.apiKey, env.baseid))
+app.post("/charts",bodyParser.urlencoded(),charts(env.apiKey, env.baseid, env.verificationToken))
 
 app.get("/",function(req,res){
 	res.setHeader('Content-Type', 'application/json');
