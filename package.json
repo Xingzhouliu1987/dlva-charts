@@ -10,7 +10,7 @@
     "type" : "git", 
     "url" : "https://github.com/Xingzhouliu1987/dlva-charts"
   },
-  "author": "",
+  "author": "Xing Liu",
   "license": "ISC",
   "dependencies": {
     "airtable": "^0.5.0",
