@@ -32,6 +32,7 @@ function request_metar(airport, callback, options) {
 	}, function(err,res) {
 		if(err) {
 			callback(err, null)
+			return
 		}
 		res.on("data",function(chunk){
 			result += chunk;
@@ -48,20 +49,20 @@ function metar(airport, callback) {
 		request_metar(airport, function(err,result) {
 			if(err) {
 				callback({
-						type: "ephemeral",
+						response_type: "ephemeral",
 						text: "Something Broke :-(. Sorry!"
 				})
 			} else {
 
 				if(result.response.data[0].METAR === undefined || result.response.data[0].METAR === null || result.response.data[0].METAR.length === 0) {
 					callback({
-							type: "ephemeral",
+							response_type: "ephemeral",
 							text: "No weather available for " + airport
 					})
 					return;
 				} else {
 					callback({
-							type: "ephemeral",
+							response_type: "ephemeral",
 							text: "METAR for "+airport+" at " + new Date(),
 							attachments : result.response.data[0].METAR.map(function(d){
 									return { text : 
@@ -99,7 +100,7 @@ module.exports = function(verificationToken,callback,options) {
 		if(!check(req)) {
 			res.setHeader('Content-Type', 'application/json');
 			res.send(JSON.stringify({
-				type: "ephemeral" , 
+				response_type: "ephemeral" , 
 				text: "Invalid Command"
 			}))			
 			return;
