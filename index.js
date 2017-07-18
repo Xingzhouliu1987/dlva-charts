@@ -41,9 +41,10 @@ function get_chart(airport, callback) {
 	});
 };
 var app = express();
+app.set('port', (process.env.PORT || process.argv[2] || 5000))
 
 
-app.post("/",bodyParser.urlencoded(),function(req,res){
+app.post("/charts",bodyParser.urlencoded(),function(req,res){
 
 	var airport = req.body.text ;
 	if(airport && typeof(airport) == "string" && (airport = airport.trim()).length ===4 ) {
@@ -70,5 +71,14 @@ app.post("/",bodyParser.urlencoded(),function(req,res){
 		}));
 	}
 })
+app.get("/",function(req,res){
+	res.setHeader('Content-Type', 'application/json');
+	res.send(JSON.stringify({
+			"response_type"  : "ephemeral" , 
+			"text" : "invalid request"
+	}));
+});
 
-app.listen(9999)
+app.listen(app.get("port"), function(){
+	console.log("serving on "+app.get("port"))
+})

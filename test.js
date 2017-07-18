@@ -2,7 +2,7 @@ var querystring = require('querystring') ,
     http = require("http")
      , assert = require('assert') ;
 
-
+var port = process.env.PORT || process.argv[2] || 5000;
 function mockSlackRequest(airport, callback) {
 	var post_data = querystring.stringify({
 		command : "/charts",
@@ -10,8 +10,8 @@ function mockSlackRequest(airport, callback) {
 	})
   var post_options = {
       host: 'localhost',
-      port: '9999',
-      path: '',
+      port: port ,
+      path: '/charts',
       method: 'POST',
       headers: {
           'Content-Type': 'application/x-www-form-urlencoded',

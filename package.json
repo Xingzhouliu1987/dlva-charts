@@ -1,11 +1,11 @@
 {
-  "name": "dlva",
+  "name": "dlva slash commands",
   "version": "1.0.0",
   "description": "serves info for slash commands",
   "main": "index.js",
-  "start":"node index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+ //   "test": "./node_modules/mocha/bin/mocha",
+    "start" : "node index.js"
   },
   "author": "",
   "license": "ISC",
