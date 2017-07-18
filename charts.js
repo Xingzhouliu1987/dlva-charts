@@ -66,7 +66,7 @@ module.exports = function(apiKey, baseid) {
 				"response_type"  : "ephemeral" , 
 				"text" : "Charts command expects a 4 letter airport code",
 				"attachments" : [
-					{"text" : "Airport code" + airport + " does not pass the sniff test" }
+					{"text" : "Airport code " + airport + " does not pass the sniff test" }
 				]
 			}));
 		}
