@@ -9,8 +9,8 @@ function mockSlackRequest(airport, callback) {
 		text : airport
 	})
   var post_options = {
-      host: 'dlva-charts.herokuapp.com',
-  //    port: port ,
+      host: 'localhost',
+      port: port ,
       path: '/charts',
       method: 'POST',
       headers: {
