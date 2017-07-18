@@ -20,7 +20,7 @@ function get_chart(airport, callback) {
 	    filterByFormula : "{Airport} = '"+airport+"'"
 	}).eachPage(function page(records, fetchNextPage) {
 	    if(records.length === 0) {
-	    	results = "Charts for airport "+airport+" not found. Check name and try again."
+	    	results = "Charts for airport "+airport+" not found."
 	    } else {
 		    records.forEach(function(record) {
 		        results = record.get('Charts');
@@ -71,4 +71,4 @@ app.post("/",bodyParser.urlencoded(),function(req,res){
 	}
 })
 
-app.listen(8005)
+app.listen(80)
