@@ -1,5 +1,6 @@
 
-var charts = require("./charts.js") , 
+var charts = require("./src/charts/charts.js") , 
+	metars = require("./src/metar/metar.js") ,
 	express = require("express") , 
 	bodyParser = require("body-parser") , 
 	env = require("./env.js") ;
@@ -10,6 +11,7 @@ var app = express();
 app.set('port', (process.env.PORT || process.argv[2] || 5000))
 
 app.post("/charts",bodyParser.urlencoded(),charts(env.apiKey, env.baseid, env.verificationToken))
+app.post("/metar",bodyParser.urlencoded(),metars(env.verificationToken))
 
 app.get("/",function(req,res){
 	res.setHeader('Content-Type', 'application/json');

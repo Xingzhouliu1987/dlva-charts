@@ -4,21 +4,26 @@
   "description": "serves info for slash commands",
   "main": "index.js",
   "scripts": {
-    "start" : "node index.js"
+    "start": "node index.js",
+    "test" : "./node_modules/mocha/bin/mocha"
   },
-  "repository":{
-    "type" : "git", 
-    "url" : "https://github.com/Xingzhouliu1987/dlva-charts"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Xingzhouliu1987/dlva-charts"
   },
   "author": "Xing Liu",
   "license": "ISC",
   "dependencies": {
     "airtable": "^0.5.0",
     "body-parser": "^1.17.2",
-    "express": "^4.15.3"
+    "express": "^4.15.3",
+    "request": "^2.81.0",
+    "simple-get": "^2.6.0",
+    "xml2js": "^0.4.17"
   },
   "devDependencies": {
     "mocha": "^3.4.2",
+    "mock-request": "^0.1.2",
     "querystring": "^0.2.0"
   }
 }
