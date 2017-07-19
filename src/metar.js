@@ -72,7 +72,7 @@ function getwinds(METAR) {
 }
 function getvisibility(METAR) {
 	try {
-		var vis = getfirst(METAR.visibility_statute_mile);
+		var vis = getfirst(METAR.visibility_statute_mi);
 		if(vis && typeof(vis)==="string") {
 			return "Visibility " + vis + " Statute Miles";
 		} else {
