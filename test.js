@@ -1,2 +1,2 @@
-require("./src/charts/test-charts.js")
-require("./src/metar/test-metar.js")
+require("./src/test-charts.js")
+require("./src/test-metar.js")

@@ -1,6 +1,6 @@
 
 var charts = require("./src/charts/charts.js") , 
-	metars = require("./src/metar/metar.js") ,
+	metars = require("./src/metar.js") ,
 	express = require("express") , 
 	bodyParser = require("body-parser") , 
 	env = require("./env.js") ;
