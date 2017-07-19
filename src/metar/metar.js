@@ -18,7 +18,7 @@ function request_metar(airport, callback, options) {
 		defaultopts = extend({
 			dataSource: "metars",
 			requestType : "retrieve",
-			hoursBeforeNow : 2 , 
+			hoursBeforeNow : 4 , 
 			format : "xml" , 
 			stationString : airport.toUpperCase()
 		}, options || {}),
@@ -43,7 +43,46 @@ function request_metar(airport, callback, options) {
 	})
 
 }
-
+function getfirst(arr_or_obj) {
+	if(!Array.isArray(arr_or_obj)) return arr_or_obj;
+	return getfirst(arr_or_obj[0])
+}
+function getwinds(METAR) {
+	try {
+		var dir = getfirst(METAR.wind_dir_degrees) , 
+			speed = getfirst(METAR.wind_speed_kt) ,
+			gust = getfirst(METAR.wind_gust_kt) ,
+			res = 'Winds from ' ;
+		if(dir && typeof(dir) === "string") {
+			res += (dir + " degrees") 
+		} else {
+			return "No Wind Information";
+		}
+		if(speed && typeof(speed)=="string") {
+			res += (" at " + speed + " knots")
+		}
+		if(gust && typeof(gust)==="string") {
+			res += (" gusting " + gust + " knots")
+		}
+		return res;
+	} catch(err) {
+		console.log(err)
+		return "No Wind Information";
+	}
+}
+function getvisibility(METAR) {
+	try {
+		var vis = getfirst(METAR.visibility_statute_mile);
+		if(vis && typeof(vis)==="string") {
+			return "Visibility " + vis + " Statute Miles";
+		} else {
+			return "No Visibility Information";
+		}
+	} catch(err) {
+		console.log(err)
+		return "No Visibility Information"; 
+	}
+}
 function metar(airport, callback) {
 	if(airport && typeof(airport) === "string" && (airport = airport.trim().toUpperCase()).length === 4) {
 		request_metar(airport, function(err,result) {
@@ -61,14 +100,17 @@ function metar(airport, callback) {
 					})
 					return;
 				} else {
+					var attach = [] ;
+					attach.push({text:"Recorded at " + result.response.data[0].METAR[0].observation_time.toString()})
+					attach.push({text:getfirst(result.response.data[0].METAR[0].raw_text)})
+					var winds = getwinds(result.response.data[0].METAR[0]) , 
+						vis = getvisibility(result.response.data[0].METAR[0]) ;
+					if(winds) attach.push({text: winds});
+					if(vis) attach.push({text: vis});
 					callback({
 							response_type: "ephemeral",
-							text: "METAR for "+airport+" at " + new Date(),
-							attachments : result.response.data[0].METAR.map(function(d){
-									return { text : 
-										(new Date(d.observation_time)) + " -> " + d.raw_text	
-									}	
-							})
+							text: "METAR for "+airport+" at " + (new Date()).toString(),
+							attachments : attach
 
 					  })				
 				}
