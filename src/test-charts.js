@@ -1,7 +1,7 @@
 var querystring = require('querystring') , 
     http = require("http"), 
     assert = require('assert') , 
-    env = require("../../env.js") , 
+    env = require("../env.js") , 
     charts = require("./charts.js");
 
 
