@@ -1,5 +1,5 @@
 {
-  "name": "dlva slash commands",
+  "name": "dlva-slash-commands",
   "version": "1.0.0",
   "description": "serves info for slash commands",
   "main": "index.js",

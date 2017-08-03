@@ -1,8 +1,8 @@
 var querystring = require('querystring') , 
     http = require("http"), 
     assert = require('assert') , 
-    env = require("../../env.js") , 
-    charts = require("./charts.js");
+    env = require("../env.js") , 
+    charts = require("./charts-updated.js");
 
 
 
@@ -22,7 +22,7 @@ describe("test charts",function() {
   			},
   			send : function(data) {
   				var obj = JSON.parse(data);
-  				assert.equal("Charts for KLAX", obj.text)
+  				assert.equal("Charts for KLAX", obj.attachments[0].text)
   				done()
   			}
   		})
@@ -39,7 +39,7 @@ describe("test charts",function() {
   			},
   			send : function(data) {
   				var obj = JSON.parse(data);
-  				assert.equal("Charts command expects a 4 letter airport code", obj.text)
+  				assert.equal("Charts command expects a 4 letter airport code", obj.attachments[0].text)
   				done()
   			}
   		})

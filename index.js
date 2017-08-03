@@ -1,5 +1,5 @@
 
-var charts = require("./src/charts.js") , 
+var charts = require("./src/charts-updated.js") , 
 	metars = require("./src/metar.js") ,
 	express = require("express") , 
 	bodyParser = require("body-parser") , 

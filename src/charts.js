@@ -22,6 +22,7 @@ module.exports = function(apiKey, baseid, verificationToken) {
 		    } else {
 			    records.forEach(function(record) {
 			        results = record.get('Charts');
+
 			    });
 			}
 		    // To fetch the next page of records, call `fetchNextPage`.

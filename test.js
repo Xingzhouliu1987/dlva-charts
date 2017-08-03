@@ -1,2 +1,2 @@
-require("./src/test-charts.js")
+require("./src/test-charts-new.js")
 require("./src/test-metar.js")
