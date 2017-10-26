@@ -16,6 +16,8 @@
     "airtable": "^0.5.0",
     "body-parser": "^1.17.2",
     "express": "^4.15.3",
+    "fuzzyset": "0.0.4",
+    "googleapis": "^22.2.0",
     "request": "^2.81.0",
     "simple-get": "^2.6.0",
     "xml2js": "^0.4.17"

@@ -3,7 +3,8 @@ var charts = require("./src/charts-updated.js") ,
 	metars = require("./src/metar.js") ,
 	express = require("express") , 
 	bodyParser = require("body-parser") , 
-	env = require("./env.js") ;
+	env = require("./env.js") ,
+    routes = require("./src/routes/routes.js");
 
 
 var app = express();
@@ -12,6 +13,7 @@ app.set('port', (process.env.PORT || process.argv[2] || 5000))
 
 app.post("/charts",bodyParser.urlencoded(),charts(env.apiKey, env.baseid, env.verificationToken))
 app.post("/metar",bodyParser.urlencoded(),metars(env.verificationToken))
+app.post("/routes",bodyParser.urlencoded(),routes(env.googleAPI_key, env.route_doc_id, env.route_doc_range))
 
 app.get("/",function(req,res){
 	res.setHeader('Content-Type', 'application/json');
