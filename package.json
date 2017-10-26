@@ -1,29 +1,30 @@
 {
-  "name": "dlva slash commands",
+  "name": "dlva-charts",
   "version": "1.0.0",
-  "description": "serves info for slash commands",
   "main": "index.js",
+  "dependencies": {
+    "airtable": "^0.5.0",
+    "express": "^4.16.2",
+    "fuzzyset": "0.0.4",
+    "google-auth-library": "^0.11.0",
+    "googleapis": "^22.2.0",
+    "simple-get": "^2.7.0",
+    "xml2js": "^0.4.19"
+  },
+  "devDependencies": {},
   "scripts": {
-    "start": "node index.js",
-    "test" : "./node_modules/mocha/bin/mocha"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Xingzhouliu1987/dlva-charts"
+    "url": "git+https://github.com/Xingzhouliu1987/dlva-charts.git"
   },
-  "author": "Xing Liu",
+  "keywords": [],
+  "author": "",
   "license": "ISC",
-  "dependencies": {
-    "airtable": "^0.5.0",
-    "body-parser": "^1.17.2",
-    "express": "^4.15.3",
-    "request": "^2.81.0",
-    "simple-get": "^2.6.0",
-    "xml2js": "^0.4.17"
+  "bugs": {
+    "url": "https://github.com/Xingzhouliu1987/dlva-charts/issues"
   },
-  "devDependencies": {
-    "mocha": "^3.4.2",
-    "mock-request": "^0.1.2",
-    "querystring": "^0.2.0"
-  }
+  "homepage": "https://github.com/Xingzhouliu1987/dlva-charts#readme",
+  "description": ""
 }
