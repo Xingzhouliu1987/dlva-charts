@@ -37,12 +37,17 @@ function ingest(api_key,doc_id,range) {
 				airport_name = res[i][13],
 				iata = res[i][16];
 			if(nms[dt_code]==null) {
-				nms[(city_name + ", " + state_country_name + " ("+dt_code+" - "+airport_name+") ")] = j;
+				nms[city_name + ", " + state_country_name + " "+airport_name] = j;
+				nms[city_name + " " + dt_code ] = j;
+				nms[city_name + " " + airport_name ] = j;
+
 				nms[dt_code] = j;
 				nms[iata] = j;
 				nms[airport_name] = j;
-				nms_match[j] = (city_name + ", " + state_country_name + " ("+dt_code+" - "+airport_name+") ");
-				searcher.add((city_name + ", " + state_country_name + " ("+dt_code+" - "+airport_name+") "))
+				nms_match[j] = city_name + ", " + state_country_name + " "+airport_name;
+				searcher.add(city_name + ", " + state_country_name + " "+airport_name)
+				searcher.add(city_name + " " + dt_code )
+				searcher.add(city_name + " " +airport_name)
 				searcher.add(iata)
 				searcher.add(dt_code)
 				searcher.add(airport_name)
@@ -144,7 +149,7 @@ function get_route(api_key,doc_id,range,verificationToken) {
 		var dpt = names[depart] ,
 			arv = names[arrive] ,
 			route = null;
-		////console.log(searcher.get(depart))
+
 		if(dpt == null) {
 			dpt = names[searcher.get(depart)[0][1]]
 		}

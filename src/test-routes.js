@@ -96,6 +96,63 @@ describe("test routes",function() {
       })
 
   })
+  it("test valid route 4" , function(done){
+    routefunc({body:{
+      command : "/routes",
+      text : "Salt Lake City - Amsterdam", 
+      token :  "0EUKomyJbciv4CULBSsVYhPg"
+      }},{
+        setHeader: function() {
+
+        },
+        send : function(data) {
+          var obj = JSON.parse(data);
+          console.log(data)
+          // assert.equal("DL 4385", obj.attachments[0].fields[0].value)
+          assert.equal("Salt Lake City - Amsterdam", obj.attachments[0].text)
+          done()
+        }
+      })
+
+  })
+  it("test valid route 5" , function(done){
+    routefunc({body:{
+      command : "/routes",
+      text : "Atlanta - Tokyo Narita International", 
+      token :  "0EUKomyJbciv4CULBSsVYhPg"
+      }},{
+        setHeader: function() {
+
+        },
+        send : function(data) {
+          var obj = JSON.parse(data);
+          console.log(data)
+          // assert.equal("DL 4385", obj.attachments[0].fields[0].value)
+          assert.equal("Atlanta - Tokyo Narita Airport", obj.attachments[0].text)
+          done()
+        }
+      })
+
+  })
+  it("test valid route 5" , function(done){
+    routefunc({body:{
+      command : "/routes",
+      text : "Atlanta - Tokyo Narita", 
+      token :  "0EUKomyJbciv4CULBSsVYhPg"
+      }},{
+        setHeader: function() {
+
+        },
+        send : function(data) {
+          var obj = JSON.parse(data);
+          console.log(data)
+          // assert.equal("DL 4385", obj.attachments[0].fields[0].value)
+          assert.equal("Atlanta - Tokyo Narita", obj.attachments[0].text)
+          done()
+        }
+      })
+
+  })
 	it("test invalid route search string", function(done){
 		routefunc({body:{
 			command : "/routes",
