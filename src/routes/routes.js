@@ -197,7 +197,8 @@ function get_route(api_key,doc_id,range,verificationToken) {
 				{"title":"Domestic/International" , "value" : route[14],"short" : true},						
 				{"title":"Route Type" ,"value": route[6],"short":true},
 				{"title":"Distance" ,"value": route[7],"short":true},
-				{"title":"Aircraft" ,"value": route[6],"short":true} 
+				{"title":"Aircraft" ,"value": route[6],"short":true},
+				{"title":"Flight Information","value":"http://flightaware.com/live/findflight?origin="+route[3]+"&destination=" + route[4],"short":true}}
 				]}
 				]}	
 			res.send(JSON.stringify(
