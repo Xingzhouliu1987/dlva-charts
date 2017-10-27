@@ -26,68 +26,6 @@ function dot_path(object,path) {
 	}
 	return res;
 }
-
-// function searchercls(heap_in, search_fields) {
-// 	var match = {} , 
-// 		strings = [] , 
-// 		fuzzy = fuzzyset() ,
-// 		obj = {} ,
-// 		heap = [];
-
-// 	obj.add = function(heap_object) {
-// 		for(var j = 0; j<search_fields.length; j++) {
-// 			var val = dot_path(heap_object,search_fields[j]);
-// 			////console.log(val)
-// 			if(match[val] == null) {
-// 				match[val] = []
-// 				fuzzy.add(val)
-// 			}
-// 			if(match[val].indexOf(heap.length) < 0) {
-// 				match[val].push(heap.length)
-// 			}
-// 			heap.push(heap_obj)
-// 		}		
-// 	}
-// 	for(var i = 0; i<heap.length; i++) {
-// 		obj.add(heap_in[i])
-// 	}
-// 	obj.search = function(search_string,n) {
-// 		var weights = {} , 
-// 			results = [] ,
-// 			raw = fuzzy.get(search_string) ;
-// 		////console.log("Search for: "+search_string)
-// 		////console.log(fuzzy.get("Los Angeles"))
-// 		////console.log(raw)
-// 		raw.map(function(match){
-// 			var wgt = match[0],
-// 				val = match[1],
-// 				nw = [];
-// 				for(var i = 0; i<match[val].length; i++) {
-// 					var idx  = match[val][i];
-// 					if(weights[idx]) {
-// 						weights[idx] += wgt;
-// 					} else {
-// 						weights[idx] = wgt;
-// 						nw.push(idx)
-// 					}
-// 				}
-// 				results.concat(nw)
-// 		})
-// 		results.sort(function(a,b){
-// 			return weights[b] - weights[a]
-// 		})
-// 		if(n) {
-// 			return results.map(function(x){
-// 				return heap[x]
-// 			}).slice(0,n)
-// 		}
-// 		return results.map(function(x){
-// 			return heap[x]
-// 		});
-// 	}
-// 	return obj
-// }
-
 var routes = undefined ,
 	airports = [] ,
 	bycode = {} ,
@@ -418,7 +356,7 @@ function get_route(api_key,doc_id,range,verificationToken) {
 				for(var i = 1; i<candidates.length; i ++) {
 					flds.push({
 						"title" : i - 1,
-						"text" : airports[bycode[candidates[i][3]]].full_name + " to " + airports[bycode[candidates[i][4]]].full_name
+						"value" : airports[bycode[candidates[i][3]]].full_name + " to " + airports[bycode[candidates[i][4]]].full_name
 					})
 				}
 				others = {
