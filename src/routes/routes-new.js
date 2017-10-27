@@ -1,7 +1,8 @@
 
 var getSheet = require("../googlesheets/googlesheets.js"),
 	fuzzyset = require("fuzzyset") ;
-var re = /(?:^(.+)(?:(?:\s+to\s+)|(?:\s*-\s*))(.+)$)|(?:^([\w\d]+)\s+([\w\d^\-]+)$)/i
+	//|(?:^([\w\d]+)\s+([\w\d^\-]+)$)
+var re = /(?:^(.+)(?:(?:\s+to\s+)|(?:\s*-\s*))(.+)$)/i
 var fullTextSearch = require('full-text-search');
 var searchidx = new fullTextSearch();
 function parseInput(input) {
@@ -9,7 +10,7 @@ function parseInput(input) {
 	if(matched === null) {
 		return [input, null]
 	} else {
-		return [matched[1].trim() || matched[3].trim(), matched[2].trim() || matched[4].trim()]
+		return [matched[1].trim() , matched[2].trim()]
 	}
 }
 
@@ -154,6 +155,7 @@ function ingest(api_key,doc_id,range) {
 
 	}
 }
+
 function process_search_routes(potentials_x,potentials_y) {
 	var output = [] ,
 		weight = [] ,
@@ -204,6 +206,49 @@ function invalid_search(text,res) {
 			"response_type"  : "ephemeral" , 
 			"text" : "Search " + text + " is not valid." ,
 		}));		
+}
+function routes_from_list(req, res, routez,fromap, attach) {
+		res.setHeader('Content-Type', 'application/json');
+		var output = 
+			{
+				   "response_type": "ephemeral", 
+ 					"text" : "Routes starting from " + (fromap || {}).full_name,
+	                  "attachments" : [ ]
+			}	
+		for(routeid in routez) {
+			var route = routez[routeid];
+			var toap = airports[bycode[route[4].trim().toUpperCase()]],
+				fname = (toap || {}).full_name,
+				fltnm = route[2],
+				pln = route[5],
+				typ = route[6],
+				dist = route[7],
+				duration = route[8];
+			output.attachments.push({
+				"title" : fltnm,
+				"text" : fname,
+				"fields":[
+					{
+						"title" : "Duration/Distance",
+						"value" : duration + " ("+dist+")",
+						"short" : true
+					},
+					{
+						"title" : "Aircraft",
+						"value" : pln + " "+typ,
+						"short" : true
+					}
+
+				]
+
+
+			})
+			output.attachments.sort(function(a,b){
+				return a.text.slice(a.text.length-5,a.text.length-1)>b.text.slice(b.text.length-5,b.text.length-1) ? 1 : -1
+			})
+			console.log(output.attachments[0])
+		}
+		res.send(JSON.stringify(output)) 
 }
 function route_detail(req,res, route, fromap, toap, attach ) {
 		res.setHeader('Content-Type', 'application/json');
@@ -267,7 +312,47 @@ function get_route(api_key,doc_id,range,verificationToken) {
 			return true;
 		}
 	}
+	var get_routes_from = function(depart , req, res) {
+			if(!check(req)) {
+					res.setHeader('Content-Type', 'application/json');
+					res.send(JSON.stringify({
+						"response_type"  : "ephemeral" , 
+						"text" : "Invalid Command" ,
+					}));		
+					return ;	
+			}	
+			if(req.body.text=="update-routes-1648") {
+				return ingestor(function(){
+					res.setHeader('Content-Type', 'application/json');
+					res.send(JSON.stringify({
+						"response_type"  : "ephemeral" , 
+						"text" : "Updated" ,
+					}));
+				})			
+			}	
+			if(routes == undefined) {
+				return ingestor(function(){
+					return callfunc(req,res)
+				})
+			}		
+			var dpt = bycode[depart.trim().toUpperCase()],
+				routez = routes[dpt] ;
 
+		   if(routez == null) {
+					var x = searcher.search(depart);
+					if(x.length == 0) {
+						return airport_not_found(depart,res)
+					}
+					dpt = bycode[x[0].code] ;
+					routez = routes[dpt]
+			}
+			if(routez == null) {
+				return airport_not_found(depart,res)
+			}
+			return routes_from_list(req,res,routez,x[0])
+
+
+	}
 	var callfunc = function (req,res) {
 
 		if(!check(req)) {
@@ -296,6 +381,9 @@ function get_route(api_key,doc_id,range,verificationToken) {
 			depart = (args[0] || "").trim(),
 			arrive = (args[1] || "").trim();
 		if(arrive == ""|| depart == "") {
+			if(arrive=="" && depart != "") {
+				return get_routes_from(depart, req, res)
+			}
 			return invalid_search(req.body.text,res)
 		}
 		//console.log(depart)
@@ -345,6 +433,7 @@ function get_route(api_key,doc_id,range,verificationToken) {
 
 		return route_detail(req,res,route,airports[dpt],airports[arv])                 
 	}
+	callfunc.get_routes_from = get_routes_from;
 	return callfunc
 }
 get_route.ingest = ingest

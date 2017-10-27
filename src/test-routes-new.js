@@ -173,6 +173,25 @@ describe("test routes",function() {
       })
 
   })
+  it("test valid route 7" , function(done){
+    routefunc({body:{
+      command : "/routes",
+      text : "Seattle", 
+      token :  "EUKomyJbciv4CULBSsVYhPg"
+      }},{
+        setHeader: function() {
+
+        },
+        send : function(data) {
+          var obj = JSON.parse(data);
+          console.log(data)
+          // assert.equal("DL 4385", obj.attachments[0].fields[0].value)
+          //assert.equal("DL 415", obj.attachments[0].fields[0].value)
+          done()
+        }
+      })
+
+  })
 	it("test invalid route search string", function(done){
 		routefunc({body:{
 			command : "/routes",
