@@ -7,8 +7,8 @@ var fullTextSearch = require('full-text-search');
 var searchidx = new fullTextSearch();
 function parseInput(input) {
 	var matched = re.exec(input)
-	if(matched === null) {
-		return [input, null]
+	if(matched == null) {
+		return [input.trim(), null]
 	} else {
 		return [matched[1].trim() , matched[2].trim()]
 	}
@@ -37,7 +37,7 @@ function dot_path(object,path) {
 // 	obj.add = function(heap_object) {
 // 		for(var j = 0; j<search_fields.length; j++) {
 // 			var val = dot_path(heap_object,search_fields[j]);
-// 			//console.log(val)
+// 			////console.log(val)
 // 			if(match[val] == null) {
 // 				match[val] = []
 // 				fuzzy.add(val)
@@ -55,9 +55,9 @@ function dot_path(object,path) {
 // 		var weights = {} , 
 // 			results = [] ,
 // 			raw = fuzzy.get(search_string) ;
-// 		//console.log("Search for: "+search_string)
-// 		//console.log(fuzzy.get("Los Angeles"))
-// 		//console.log(raw)
+// 		////console.log("Search for: "+search_string)
+// 		////console.log(fuzzy.get("Los Angeles"))
+// 		////console.log(raw)
 // 		raw.map(function(match){
 // 			var wgt = match[0],
 // 				val = match[1],
@@ -97,9 +97,9 @@ function ingest(api_key,doc_id,range) {
 	return function(callback) {
 	return getSheet.noAuth(api_key,doc_id,range)(function(err,res){
 		if(err) {
-			//////console.log(err)
+			////////console.log(err)
 		}
-		//////console.log(res)
+		////////console.log(res)
 		var rts = {},
 			apts = [],
 			proced = {},
@@ -246,7 +246,7 @@ function routes_from_list(req, res, routez,fromap, attach) {
 			output.attachments.sort(function(a,b){
 				return a.text.slice(a.text.length-5,a.text.length-1)>b.text.slice(b.text.length-5,b.text.length-1) ? 1 : -1
 			})
-			console.log(output.attachments[0])
+			//console.log(output.attachments[0])
 		}
 		res.send(JSON.stringify(output)) 
 }
@@ -336,20 +336,22 @@ function get_route(api_key,doc_id,range,verificationToken) {
 				})
 			}		
 			var dpt = bycode[depart.trim().toUpperCase()],
-				routez = routes[dpt] ;
+				routez = routes[dpt] ,
+				xx = airports[dpt];
 
 		   if(routez == null) {
 					var x = searcher.search(depart);
-					if(x.length == 0) {
+					if(x.length < 1) {
 						return airport_not_found(depart,res)
 					}
 					dpt = bycode[x[0].code] ;
 					routez = routes[dpt]
+					xx = x[0]
 			}
 			if(routez == null) {
 				return airport_not_found(depart,res)
 			}
-			return routes_from_list(req,res,routez,x[0])
+			return routes_from_list(req,res,routez,xx)
 
 
 	}
@@ -386,8 +388,8 @@ function get_route(api_key,doc_id,range,verificationToken) {
 			}
 			return invalid_search(req.body.text,res)
 		}
-		//console.log(depart)
-		//console.log(arrive)
+		////console.log(depart)
+		////console.log(arrive)
 		var dpt = bycode [depart.toUpperCase()] ,
 			arv = bycode [arrive.toUpperCase()] ,
 			routez = routes[dpt],
@@ -396,8 +398,8 @@ function get_route(api_key,doc_id,range,verificationToken) {
 		if(routez == null || route == null) {
 			var x = searcher.search(depart) , 
 				y = searcher.search(arrive) ;
-			//console.log(x)
-			//console.log(y)
+			////console.log(x)
+			////console.log(y)
 			if(x.length == 0) {
 				return airport_not_found(depart, res)
 			}
@@ -406,9 +408,9 @@ function get_route(api_key,doc_id,range,verificationToken) {
 			}
 			var candidates = process_search_routes(x, y);
 			var flds = [],others;
-			//console.log(candidates)
-			//console.log("candidates")
-			//console.log(searcher.search("atlanta"))
+			////console.log(candidates)
+			////console.log("candidates")
+			////console.log(searcher.search("atlanta"))
 			if(candidates.length == 0) {
 				return route_not_found(req.body.text, res)
 			}
