@@ -2,7 +2,7 @@ var querystring = require('querystring') ,
     http = require("http"), 
     assert = require('assert') , 
     env = require("../env.js") , 
-    routes = require("./routes/routes.js");
+    routes = require("./routes/routes-new.js");
 
 
 
@@ -61,7 +61,7 @@ describe("test routes",function() {
   it("test valid route 2" , function(done){
     routefunc({body:{
       command : "/routes",
-      text : "Los Angeles - London Heathrow", 
+      text : "Los Angeles - London", 
       token :  "0EUKomyJbciv4CULBSsVYhPg"
       }},{
         setHeader: function() {
@@ -70,8 +70,9 @@ describe("test routes",function() {
         send : function(data) {
           var obj = JSON.parse(data);
           console.log(data)
+          assert.equal(true, obj.attachments != null && obj.attachments.length > 0)
           assert.equal("DL 4385", obj.attachments[0].fields[0].value)
-          assert.equal("Los Angeles - London Heathrow", obj.attachments[0].text)
+          assert.equal("Los Angeles - London", obj.attachments[0].text)
           done()
         }
       })
@@ -80,7 +81,7 @@ describe("test routes",function() {
   it("test valid route 3" , function(done){
     routefunc({body:{
       command : "/routes",
-      text : "Los Angeles - Paris De Gaulle", 
+      text : "Los Angeles - Paris Charles De Gaulle", 
       token :  "0EUKomyJbciv4CULBSsVYhPg"
       }},{
         setHeader: function() {
@@ -89,8 +90,8 @@ describe("test routes",function() {
         send : function(data) {
           var obj = JSON.parse(data);
           console.log(data)
-          // assert.equal("DL 4385", obj.attachments[0].fields[0].value)
-          assert.equal("Los Angeles - Paris De Gaulle", obj.attachments[0].text)
+          assert.equal(true, obj.attachments != null && obj.attachments.length > 0)
+          assert.equal("Los Angeles - Paris Charles De Gaulle", obj.attachments[0].text)
           done()
         }
       })
@@ -118,7 +119,7 @@ describe("test routes",function() {
   it("test valid route 5" , function(done){
     routefunc({body:{
       command : "/routes",
-      text : "Atlanta - Tokyo Narita", 
+      text : "Atlanta - Tokyo", 
       token :  "0EUKomyJbciv4CULBSsVYhPg"
       }},{
         setHeader: function() {
@@ -128,7 +129,26 @@ describe("test routes",function() {
           var obj = JSON.parse(data);
           console.log(data)
           // assert.equal("DL 4385", obj.attachments[0].fields[0].value)
-          assert.equal("Atlanta - Tokyo Narita Airport", obj.attachments[0].text)
+          assert.equal("DL 295", obj.attachments[0].fields[0].value)
+          done()
+        }
+      })
+
+  })
+  it("test valid route 5" , function(done){
+    routefunc({body:{
+      command : "/routes",
+      text : "Atlanta - Tokyo Narita", 
+      token :  "EUKomyJbciv4CULBSsVYhPg"
+      }},{
+        setHeader: function() {
+
+        },
+        send : function(data) {
+          var obj = JSON.parse(data);
+          console.log(data)
+          // assert.equal("DL 4385", obj.attachments[0].fields[0].value)
+          assert.equal("DL 295", obj.attachments[0].fields[0].value)
           done()
         }
       })
@@ -137,8 +157,8 @@ describe("test routes",function() {
   it("test valid route 6" , function(done){
     routefunc({body:{
       command : "/routes",
-      text : "Atlanta - Tokyo Narita", 
-      token :  "0EUKomyJbciv4CULBSsVYhPg"
+      text : "Seattle - New York", 
+      token :  "EUKomyJbciv4CULBSsVYhPg"
       }},{
         setHeader: function() {
 
@@ -147,7 +167,7 @@ describe("test routes",function() {
           var obj = JSON.parse(data);
           console.log(data)
           // assert.equal("DL 4385", obj.attachments[0].fields[0].value)
-          assert.equal("Atlanta - Tokyo Narita", obj.attachments[0].text)
+          assert.equal("DL 415", obj.attachments[0].fields[0].value)
           done()
         }
       })
@@ -164,11 +184,27 @@ describe("test routes",function() {
   			},
   			send : function(data) {
   				var obj = JSON.parse(data);
-  				assert.equal("Route KASLAER could not be found.", obj.text)
+  				assert.equal("Search KASLAER is not valid.", obj.text)
   				done()
   			}
   		})
 	})
+  it("test nonexistent route search string", function(done){
+    routefunc({body:{
+      command : "/routes",
+      text : "Atlanta to Haneda", 
+      token :  "0EUKomyJbciv4CULBSsVYhPg"
+      }},{
+        setHeader: function() {
+
+        },
+        send : function(data) {
+          var obj = JSON.parse(data);
+          assert.equal("Route Atlanta to Haneda could not be found.", obj.text)
+          done()
+        }
+      })
+  })
   it("route update", function(done){
     routefunc({body:{
       command : "/routes",

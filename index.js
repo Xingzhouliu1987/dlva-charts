@@ -4,7 +4,7 @@ var charts = require("./src/charts-updated.js") ,
 	express = require("express") , 
 	bodyParser = require("body-parser") , 
 	env = require("./env.js") ,
-    routes = require("./src/routes/routes.js");
+    routes = require("./src/routes/routes-new.js");
 
 
 var app = express();
